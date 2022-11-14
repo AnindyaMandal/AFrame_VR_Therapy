@@ -4,7 +4,7 @@
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   </head>
   <body>
-    <a-scene background="color: white" fog="type: linear; color: #AAA" click-event>
+    <a-scene background="color: white" fog="type: exponential; color: #AAA" click-event>
       <a-assets>
         <img id="sky" src="assets/images/mountain_sky_full.jpg">
         <img id="groundTexture" src="assets/images/grass_texture2.jpg">
@@ -17,7 +17,7 @@
       </a-assets>
 
       <a-sky src="#sky"></a-sky>
-      <a-plane position="0 0 0" rotation="-90 0 0" width=100" height="100" material="src: #snowTexture" ></a-plane>
+      <a-plane position="0 0 0" rotation="-90 0 0" width=200" height="200" material="src: #snowTexture" ></a-plane>
       <a-mountain color="grey"></a-mountain>
       <a-camera>
         <!-- <a-cursor click-event></a-cursor> -->
@@ -41,40 +41,40 @@
 
         let n = 5
         let positionX = -50 
-        let positionZ = -50
+        let positionZ = 0
         let positionY = 0
         // this.el.addEventListener('click', (event) => {
-        for (i = 0; i < n; i++){
-          for (j = 0; j < n; j++){
-            const newElement = document.createElement('a-entity')
-            let position = '' + positionX + ' ' + positionY + ' ' + positionZ
-            console.log(position)
-            newElement.setAttribute('position', position)
-            newElement.setAttribute('scale', '0.1 0.1 0.1')
-            newElement.setAttribute('gltf-model', '#treeModel2')
-            this.el.sceneEl.appendChild(newElement)
+        // for (i = 0; i < n; i++){
+        //   for (j = 0; j < n; j++){
+        //     const newElement = document.createElement('a-entity')
+        //     let position = '' + positionX + ' ' + positionY + ' ' + positionZ
+        //     console.log(position)
+        //     newElement.setAttribute('position', position)
+        //     newElement.setAttribute('scale', '0.1 0.1 0.1')
+        //     newElement.setAttribute('gltf-model', '#treeModel2')
+        //     this.el.sceneEl.appendChild(newElement)
 
-            positionX += (Math.floor(Math.random() * 8)) + 2
-          }
-          positionX = -50
-          positionZ += (Math.floor(Math.random() * 10)) + 3
-        }
+        //     positionX += (Math.floor(Math.random() * 8)) + 2
+        //   }
+        //   positionX = -50
+        //   positionZ += (Math.floor(Math.random() * 10)) + 3
+        // }
 
-        for (i = 0; i < n; i++){
-          for (j = 0; j < n; j++){
-            const newElement = document.createElement('a-entity')
-            let position = '' + positionX + ' ' + positionY + ' ' + positionZ
-            console.log(position)
-            newElement.setAttribute('position', position)
-            // newElement.setAttribute('scale', '0.01 0.01 0.01')
-            newElement.setAttribute('gltf-model', '#birchModel')
-            this.el.sceneEl.appendChild(newElement)
+        // for (i = 0; i < n; i++){
+        //   for (j = 0; j < n; j++){
+        //     const newElement = document.createElement('a-entity')
+        //     let position = '' + positionX + ' ' + positionY + ' ' + positionZ
+        //     console.log(position)
+        //     newElement.setAttribute('position', position)
+        //     // newElement.setAttribute('scale', '0.01 0.01 0.01')
+        //     newElement.setAttribute('gltf-model', '#birchModel')
+        //     this.el.sceneEl.appendChild(newElement)
 
-            positionX += (Math.floor(Math.random() * 8)) + 2
-          }
-          positionX = -50
-          positionZ += (Math.floor(Math.random() * 10)) + 3
-        }
+        //     positionX += (Math.floor(Math.random() * 8)) + 2
+        //   }
+        //   positionX = -50
+        //   positionZ += (Math.floor(Math.random() * 10)) + 3
+        // }
 
         positionX = 50
         positionZ = 50
@@ -97,12 +97,129 @@
         }
 
 
-        // Want to have pines on the right, getting smaller in scale as they come closer to the center
+        // Want to have pines on the right, getting smaller in scale as they come closer to the center xz=-50 to xz=0
         // birch forest bottom right
         // open tundra left with lots of grass
         // Want to randomsize horizontal and vertical spacing of every tree so they arent in perfect lines
 
-        
+        positionX = -50 
+        positionZ = -50
+        positionY = 0
+        size = 200
+        border_scale = Math.floor((size/2)/10)
+        deep_border_start = -(size/2) + border_scale*3
+        deep_border_end = 0 - border_scale*3
+        mid_border_start = -(size/2) + border_scale*2
+        mid_border_end = 0 - border_scale*2
+        low_border_start = -(size/2) + border_scale*1
+        low_border_end = 0 - border_scale*1
+        small_border_start = -(size/2)
+        small_border_end = 0
+
+        console.log("deep: " + deep_border_start + " , " + deep_border_end) 
+        console.log("mid: " + mid_border_start + " , " + mid_border_end) 
+        console.log("low: " + low_border_start + " , " + low_border_end) 
+        console.log("small: " + small_border_start + " , " + small_border_end) 
+        n = 10 // 10 trees per row
+        for (x = -100; x < 0; x += 5) {
+          for (z = -100; z < 0; z += 5) {
+            
+            positionX = x + (Math.floor(Math.random() * 5))
+            positionZ = z + (Math.floor(Math.random() * 5))
+
+            size_randomizer = (Math.floor(Math.random() * 3)) // get 0 or 1 2 for randomizing sizes
+
+            const newElement = document.createElement('a-entity')
+            let position = '' + positionX + ' ' + positionY + ' ' + positionZ
+            console.log(position)
+            
+            // if ((x >= small_border_start && x <= low_border_start) || (z >= small_border_start && z <= low_border_start) || (x >= low_border_end && x <= small_border_end) || (z >= low_border_end && z <= small_border_end)) {
+            //   if (size_randomizer == 0) {
+            //     newElement.setAttribute('position', position)
+            //     newElement.setAttribute('scale', '0.01 0.01 0.01')
+            //     newElement.setAttribute('gltf-model', '#treeModel2')
+            //     this.el.sceneEl.appendChild(newElement)
+            //   } else {
+            //     newElement.setAttribute('position', position)
+            //     newElement.setAttribute('scale', '0.012 0.012 0.012')
+            //     newElement.setAttribute('gltf-model', '#treeModel2')
+            //     this.el.sceneEl.appendChild(newElement)
+            //   }
+            // }
+
+            if ((x >= small_border_start && x <= low_border_start) || (z >= small_border_start && z <= low_border_start) || (x >= low_border_end && x <= small_border_end) || (z >= low_border_end && z <= small_border_end)) {
+              // Do small trees
+              console.log("Small")
+              if (size_randomizer == 0) {
+                newElement.setAttribute('position', position)
+                newElement.setAttribute('scale', '0.01 0.01 0.01')
+                newElement.setAttribute('gltf-model', '#treeModel2')
+                this.el.sceneEl.appendChild(newElement)
+              } else if (size_randomizer == 1) {
+                newElement.setAttribute('position', position)
+                newElement.setAttribute('scale', '0.015 0.015 0.015')
+                newElement.setAttribute('gltf-model', '#treeModel2')
+                this.el.sceneEl.appendChild(newElement)
+              }
+            } else if ((x >= low_border_start && x <= mid_border_start) || (z >= low_border_start && z <= mid_border_start) || (x >= mid_border_end && x <= low_border_end) || (z >= mid_border_end && z <= low_border_end)) {
+              if (size_randomizer == 0) {
+                
+                newElement.setAttribute('position', position)
+                newElement.setAttribute('scale', '0.02 0.02 0.02')
+                newElement.setAttribute('gltf-model', '#treeModel2')
+                this.el.sceneEl.appendChild(newElement)
+              } else if (size_randomizer == 1){
+                newElement.setAttribute('position', position)
+                newElement.setAttribute('scale', '0.035 0.035 0.035')
+                newElement.setAttribute('gltf-model', '#treeModel2')
+                this.el.sceneEl.appendChild(newElement)
+              }
+            } else if ((x >= mid_border_start && x <= deep_border_start) || (z >= mid_border_start && z <= deep_border_start) || (x >= deep_border_end && x <= mid_border_end) || (z >= deep_border_end && z <= mid_border_end)) {
+              if (size_randomizer == 0) {
+                newElement.setAttribute('position', position)
+                newElement.setAttribute('scale', '0.04 0.04 0.04')
+                newElement.setAttribute('gltf-model', '#treeModel2')
+                this.el.sceneEl.appendChild(newElement)
+              } else if (size_randomizer == 1){
+                newElement.setAttribute('position', position)
+                newElement.setAttribute('scale', '0.07 0.07 0.07')
+                newElement.setAttribute('gltf-model', '#treeModel2')
+                this.el.sceneEl.appendChild(newElement)
+              }
+            } else if ((x <= deep_border_end && x >= deep_border_start) && (z <= deep_border_end && z >= deep_border_start)) {
+              if (size_randomizer == 0) {
+                newElement.setAttribute('position', position)
+                newElement.setAttribute('scale', '0.1 0.1 0.1')
+                newElement.setAttribute('gltf-model', '#treeModel2')
+                this.el.sceneEl.appendChild(newElement)
+              } else if (size_randomizer == 1) {
+                newElement.setAttribute('position', position)
+                newElement.setAttribute('scale', '0.15 0.15 0.15')
+                newElement.setAttribute('gltf-model', '#treeModel2')
+                this.el.sceneEl.appendChild(newElement)
+              }
+            }
+
+
+            // if (x <= -30 && z <= -30) {
+            //   // Make deep forest of pines with scale 0.1
+            //   newElement.setAttribute('scale', '0.1 0.1 0.1')
+            // } else if (x <= -20 && z <= -20) {
+            //   newElement.setAttribute('scale', '0.05 0.05 0.05')
+            // } else if (x <= -10 && z <= -10) {
+            //   newElement.setAttribute('scale', '0.02 0.02 0.02')
+            // } else {
+            //   newElement.setAttribute('scale', '0.01 0.01 0.01')
+            // }
+
+            
+            // newElement.setAttribute('position', position)
+            // newElement.setAttribute('gltf-model', '#treeModel2')
+            // this.el.sceneEl.appendChild(newElement)
+          }
+        }
+
+
       // })
       }
     })
