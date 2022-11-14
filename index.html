@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene background="color: white" fog="type: linear; color: #AAA" click-event>
+      <a-assets>
+        <img id="sky" src="assets/images/mountain_sky_full.jpg">
+        <img id="groundTexture" src="assets/images/grass_texture2.jpg">
+        <img id="snowTexture" src="assets/images/snow_texture.jpg">
+        <a-asset-item id="treeModel1" src="assets/models/tree_pinus.glb" ></a-asset-item>
+        <a-asset-item id="treeModel2" src="assets/models/pine_tree.glb" ></a-asset-item>
+        <a-asset-item id="grassModel" src="assets/models/grass.glb" ></a-asset-item>
+        <a-asset-item id="birchModel" src="assets/models/birch.glb" ></a-asset-item>
+        <a-asset-item id="benchModel" src="https://cdn.glitch.global/1056a948-5198-4091-a7c2-1355a515fd47/bench.glb?v=1668128764366" ></a-asset-item>
+      </a-assets>
+
+      <a-sky src="#sky"></a-sky>
+      <a-plane position="0 0 0" rotation="-90 0 0" width=100" height="100" material="src: #snowTexture" ></a-plane>
+      <a-mountain color="grey"></a-mountain>
+      <a-camera>
+        <!-- <a-cursor click-event></a-cursor> -->
+      </a-camera>
+
+      <a-entity gltf-model="#benchModel"></a-entity>
+
+    </a-scene>
+    <script>
+      AFRAME.registerComponent('click-event', {
+      init() {
+        // this.el.addEventListener('click', (event) => {
+        //   const newElement = document.createElement('a-entity')
+        //   let position = event.detail.intersection.point
+        //   console.log(position)
+        //   newElement.setAttribute('position', position)
+        //   newElement.setAttribute('scale', '0.01 0.01 0.01')
+        //   newElement.setAttribute('gltf-model', '#grassModel')
+        //   this.el.sceneEl.appendChild(newElement)
+        // })
+
+        let n = 5
+        let positionX = -50 
+        let positionZ = -50
+        let positionY = 0
+        // this.el.addEventListener('click', (event) => {
+        for (i = 0; i < n; i++){
+          for (j = 0; j < n; j++){
+            const newElement = document.createElement('a-entity')
+            let position = '' + positionX + ' ' + positionY + ' ' + positionZ
+            console.log(position)
+            newElement.setAttribute('position', position)
+            newElement.setAttribute('scale', '0.1 0.1 0.1')
+            newElement.setAttribute('gltf-model', '#treeModel2')
+            this.el.sceneEl.appendChild(newElement)
+
+            positionX += (Math.floor(Math.random() * 8)) + 2
+          }
+          positionX = -50
+          positionZ += (Math.floor(Math.random() * 10)) + 3
+        }
+
+        for (i = 0; i < n; i++){
+          for (j = 0; j < n; j++){
+            const newElement = document.createElement('a-entity')
+            let position = '' + positionX + ' ' + positionY + ' ' + positionZ
+            console.log(position)
+            newElement.setAttribute('position', position)
+            // newElement.setAttribute('scale', '0.01 0.01 0.01')
+            newElement.setAttribute('gltf-model', '#birchModel')
+            this.el.sceneEl.appendChild(newElement)
+
+            positionX += (Math.floor(Math.random() * 8)) + 2
+          }
+          positionX = -50
+          positionZ += (Math.floor(Math.random() * 10)) + 3
+        }
+
+        positionX = 50
+        positionZ = 50
+        positionY = -1
+        n = 10
+        for (i = 0; i < n; i++){
+          for (j = 0; j < n; j++){
+            const newElement = document.createElement('a-entity')
+            let position = '' + positionX + ' ' + positionY + ' ' + positionZ
+            console.log(position)
+            newElement.setAttribute('position', position)
+            newElement.setAttribute('scale', '0.03 0.03 0.03')
+            newElement.setAttribute('gltf-model', '#grassModel')
+            this.el.sceneEl.appendChild(newElement)
+
+            positionX -= (Math.floor(Math.random() * 8)) + 2
+          }
+          positionX = 50
+          positionZ -= (Math.floor(Math.random() * 10)) + 3
+        }
+
+
+        // Want to have pines on the right, getting smaller in scale as they come closer to the center
+        // birch forest bottom right
+        // open tundra left with lots of grass
+        // Want to randomsize horizontal and vertical spacing of every tree so they arent in perfect lines
+
+        
+      // })
+      }
+    })
+    </script>
+  </body>
+</html>
